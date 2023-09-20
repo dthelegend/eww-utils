@@ -1,12 +1,5 @@
 use std::{process::Command, str,io::BufRead, num::ParseIntError, time::Duration};
 use serde::Serialize;
-use clap::Args;
-
-#[derive(Args)]
-pub struct GetNetworkInfoArguments {
-    #[arg(default_value_t = 5000)]
-    pub poll_interval: u64,
-}
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase", tag="type")]
@@ -23,7 +16,7 @@ enum NetworkInfo {
     Disconnected
 }
 
-pub fn get_network_info(args: GetNetworkInfoArguments) -> Result<(), String> {
+pub fn get_network_info(poll_interval: u64) -> Result<(), String> {
     let mut wifi_info_command = Command::new("nmcli");
     wifi_info_command
         .arg("-terse")
@@ -103,6 +96,6 @@ pub fn get_network_info(args: GetNetworkInfoArguments) -> Result<(), String> {
 
         println!("{}", net_info_str);
 
-        std::thread::sleep(Duration::from_millis(args.poll_interval))
+        std::thread::sleep(Duration::from_millis(poll_interval))
     }
 }

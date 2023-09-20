@@ -166,21 +166,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b3a71ab494c0b5b860bdc8407ae08978052417070c2ced38573a9157ad75b8ac"
 
 [[package]]
-name = "eww_utils"
+name = "eww-utils"
 version = "0.1.0"
 dependencies = [
  "battery",
+ "clap",
  "regex",
  "serde",
  "serde_json",
-]
-
-[[package]]
-name = "eww_utils_cli"
-version = "0.1.0"
-dependencies = [
- "clap",
- "eww_utils",
 ]
 
 [[package]]
@@ -335,9 +328,9 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "syn"
-version = "2.0.37"
+version = "2.0.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7303ef2c05cd654186cb250d29049a24840ca25d2747c25c0381c8d9e2f582e8"
+checksum = "91e02e55d62894af2a08aca894c6577281f76769ba47c94d5756bec8ac6e7373"
 dependencies = [
  "proc-macro2",
  "quote",
