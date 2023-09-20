@@ -87,7 +87,7 @@ pub fn get_hyprland_events() -> Result<impl Iterator<Item=Result<HyprlandEvent, 
     
     let re = match Regex::new(r"(?P<EVENT>\w+)>>(?P<DATA>.+)") {
         Ok(re) => re,
-        Err(_) => return Err(format!("Failed to compile regex!"))
+        Err(_) => return Err("Failed to compile regex!".to_owned())
     };
 
     let socket_address = hyprland_instance_signature.map(|sig| format!("/tmp/hypr/{}/.socket2.sock", sig));
@@ -95,7 +95,7 @@ pub fn get_hyprland_events() -> Result<impl Iterator<Item=Result<HyprlandEvent, 
     let buffered_connection = socket_address.and_then(
         |addr| UnixStream::connect(&addr)
             .map_err(|err| format!("Failed to connect to Unix Socket at \"{}\"!\nReason: {:?}", addr, err.kind()))
-            .map(|stream| BufReader::new(stream))
+            .map(BufReader::new)
     );
 
     buffered_connection.map( |b| {
@@ -108,9 +108,9 @@ pub fn get_hyprland_events() -> Result<impl Iterator<Item=Result<HyprlandEvent, 
                         event: caps["EVENT"].to_owned(),
                         data: caps["DATA"].to_owned(),
                     }),
-                    None => return Err(format!("Failed to parse line \"{}\"", line))
+                    None => Err(format!("Failed to parse line \"{}\"", line))
                 }
             })
-        }).into_iter()
+        })
     })
 }

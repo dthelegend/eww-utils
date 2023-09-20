@@ -38,21 +38,18 @@ pub fn get_network_info(poll_interval: u64) -> Result<(), String> {
         for line in wifi_info_output.stdout.lines() {
             let line_string = line
                 .map_err(|err| format!("Failed to read line\nReason: \"{}\"", err.kind()))?;
-            let line_values: Vec<&str> = line_string.split(":").collect();
+            let line_values: Vec<&str> = line_string.split(':').collect();
 
             match line_values.as_slice() {
-                &[ssid, signal, active] => match active {
-                    "yes" => {
-                        let signal_strength: u8 = signal
-                            .parse()
-                            .map_err(|err: ParseIntError| {format!("failed to parse SIGNAL!\nReason: {:?}", err)})?;
+                &[ssid, signal, active] => if active == "yes" {
+                    let signal_strength: u8 = signal
+                        .parse()
+                        .map_err(|err: ParseIntError| {format!("failed to parse SIGNAL!\nReason: {:?}", err)})?;
 
-                        return Ok(NetworkInfo::Wifi {
-                            network_ssid: ssid.to_owned(),
-                            signal_strength
-                        })
-                    },
-                    _ => ()
+                    return Ok(NetworkInfo::Wifi {
+                        network_ssid: ssid.to_owned(),
+                        signal_strength
+                    })
                 },
                 _ => return Err(format!("Line has unexpected format \"{}\"", line_string))
             }
@@ -68,7 +65,7 @@ pub fn get_network_info(poll_interval: u64) -> Result<(), String> {
         for line in con_info_output.stdout.lines() {
             let line_string = line
                 .map_err(|err| format!("Failed to read line\nReason: \"{}\"", err.kind()))?;
-            let line_values: Vec<&str> = line_string.split(":").collect();
+            let line_values: Vec<&str> = line_string.split(':').collect();
 
             let connection = match line_values.as_slice() {
                 &[connection_type, state, connection_name] => match (state, connection_type) {

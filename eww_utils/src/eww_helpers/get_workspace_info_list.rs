@@ -73,6 +73,8 @@ pub fn get_workspace_info_list () -> Result<(), String> {
                 let events = get_workspace_info_list_corrollary()?;
             
                 let serialised_events = serde_json::to_string(&events).map_err(|_| "Failed to serialise active window info".to_owned())?;
+                
+                std::thread::sleep(std::time::Duration::from_millis(100));
 
                 println!("{}", serialised_events);
             }

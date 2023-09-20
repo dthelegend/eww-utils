@@ -1,5 +1,5 @@
 [workspace]
-
+resolver = "2"
 members = [
     "eww_utils",
     "eww_utils_cli"

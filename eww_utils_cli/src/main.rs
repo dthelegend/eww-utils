@@ -35,6 +35,12 @@ fn direction_parser(s: &str) -> Result<i32, String>{
 enum EwwHelperCommands {
     GetActiveWindowInfo,
     GetWorkspaceInfoList,
+    SetVolume {
+        id: String,
+        #[arg(value_parser = direction_parser)]
+        direction: i32,
+        value: f32,
+    },
     MoveWorkspace {
         #[arg(value_parser = direction_parser)]
         direction: i32,
@@ -52,7 +58,8 @@ fn eww_handler(command: EwwHelperCommands) -> Result<(), String>{
         EwwHelperCommands::GetActiveWindowInfo => eww_helpers::get_active_window_info::get_active_window_info(),
         EwwHelperCommands::GetWorkspaceInfoList => eww_helpers::get_workspace_info_list::get_workspace_info_list(),
         EwwHelperCommands::MoveWorkspace { direction } => eww_helpers::move_workspace::move_workspace(direction),
-        EwwHelperCommands::GetNetworkInfo { poll_interval } => eww_helpers::get_network_info::get_network_info(poll_interval)
+        EwwHelperCommands::GetNetworkInfo { poll_interval } => eww_helpers::get_network_info::get_network_info(poll_interval),
+        EwwHelperCommands::SetVolume { id, direction, value } => eww_helpers::set_volume::set_volume(id, direction, value)
     }
 }
 
