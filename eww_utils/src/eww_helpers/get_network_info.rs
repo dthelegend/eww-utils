@@ -71,8 +71,7 @@ pub fn get_network_info(poll_interval: u64) -> Result<(), String> {
                 &[connection_type, state, connection_name] => match (state, connection_type) {
                     ("connected", "wifi") => get_wifi_info(),
                     ("connected", "ethernet") => Ok(NetworkInfo::Ethernet { connection_name: connection_name.to_owned() }),
-                    (_, "loopback" | "wifi" | "ethernet") | ("disconnected", _) => Ok(NetworkInfo::Disconnected),
-                    _ => Err(format!("Line has unexpected values \"{}\"", line_string))
+                    _ => Ok(NetworkInfo::Disconnected),
                 },
                 _ => Err(format!("Line has unexpected format \"{}\"", line_string))
             }?;
