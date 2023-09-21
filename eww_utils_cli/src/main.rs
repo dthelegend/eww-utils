@@ -23,7 +23,7 @@ fn main_handler(command: MainCommands) -> Result<(), String> {
     }
 }
 
-fn direction_parser(s: &str) -> Result<i32, String>{
+fn direction_parser(s: &str) -> Result<i8, String>{
     match s {
         "up" => Ok(1),
         "down" => Ok(-1),
@@ -38,7 +38,7 @@ enum EwwHelperCommands {
     SetVolume {
         id: String,
         #[arg(value_parser = direction_parser)]
-        direction: i32,
+        direction: i8,
         value: f32,
     },
     MoveWorkspace {
