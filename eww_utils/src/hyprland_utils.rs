@@ -94,7 +94,7 @@ pub fn get_hyprland_events() -> Result<impl Iterator<Item=Result<HyprlandEvent, 
             }
         })?;
     
-    let re = match Regex::new(r"(?P<EVENT>\w+)>>(?P<DATA>.+)") {
+    let re = match Regex::new(r"(?P<EVENT>\w+)>>(?P<DATA>.*)") {
         Ok(re) => re,
         Err(_) => return Err("Failed to compile regex!".to_owned())
     };
